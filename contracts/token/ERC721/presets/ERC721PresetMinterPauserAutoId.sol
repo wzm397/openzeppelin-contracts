@@ -38,6 +38,7 @@ contract ERC721PresetMinterPauserAutoId is
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
 
+    // Counters.sol，用于记录每个token的tokenId,默认为0，每次+1
     Counters.Counter private _tokenIdTracker;
 
     string private _baseTokenURI;
@@ -79,7 +80,6 @@ contract ERC721PresetMinterPauserAutoId is
      */
     function mint(address to) public virtual {
         require(hasRole(MINTER_ROLE, _msgSender()), "ERC721PresetMinterPauserAutoId: must have minter role to mint");
-
         // We cannot just use balanceOf to create the new tokenId because tokens
         // can be burned (destroyed), so we need a separate counter.
         _mint(to, _tokenIdTracker.current());
